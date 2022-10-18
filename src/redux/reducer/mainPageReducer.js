@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 
 
@@ -6,15 +6,20 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 const initialState = {
     connectionSuccess:false,
     connectionError:false,
-    data:{},
+    data:[],
 }
 
 export const mainPageSlice = createSlice({
   name: 'mainPage',
   initialState,
   reducers:{
-    setData: (state, payload) => {
-        state.data = payload;
+    setData: (state, data) => {
+      let currencyIndex = state.data.findIndex(item => item.id == data.payload.id);
+      if(currencyIndex !== -1){
+        state.data[currencyIndex] = data.payload;
+      }else{
+        state.data = state.data.concat(data.payload)
+      }
     },
     setError: (state) => {
         state.connectionSuccess=false;
